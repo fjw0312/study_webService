@@ -1,0 +1,16 @@
+服务器 实例名称：FangService   有效付费期：2017.10.26 -2018.10.25
+
+公共IP: 120.78.177.191
+私有IP: 172.18.204.244
+
+远程连接密码： 801987
+
+超级管理员账号：root   密码：10位数 第一位大写F.
+管理员账户： fang  密码：7位数。
+普通用户: user01  密码：fang
+
+mysql数据库 一样和的用户分级账户 密码。
+
+云控制台：
+https://ecs.console.aliyun.com/#/server/i-wz91iujuip9pbmjh8nu1/detail?regionId=cn-shenzhen
+

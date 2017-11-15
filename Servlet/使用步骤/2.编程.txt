@@ -1,0 +1,36 @@
+doGet{
+
+1.直接返回字符：
+response.getWriter().append("fjw->还有这种操作,Served at: ").append(request.getContextPath());
+-------------------------------------------------------------------
+
+2.带参数访问验证：
+//获取 请求响应 数据
+		String account = request.getParameter("account");
+		String password = request.getParameter("password");
+		System.out.println("account:"+account+"  password:"+password);
+		
+		//处理业务逻辑   http://localhost:8080/DynamicWeb001/MyFirstServlet?account=fang&password=pass
+		String result = "";
+		if("fang".equals(account) && "pass".equals(password)) {
+			result = "Login Sucess!";
+		}else {
+			result = "Sorry! Account or password error!";
+		}
+		
+		//设置 返回 响应数据
+		PrintWriter pw = response.getWriter(); // 获取 response 的输出流  
+        pw.println(result); // 通过输出流把业务逻辑的结果输出 
+        pw.flush();
+-------------------------------------------------------------------------------
+
+
+3.链接mySql数据库
+  先下载一个mysql-connector.jar包
+  然后：加载链接数据库
+	Class.forName(sqlDriver); // java反射，固定写法  
+        connect = (Connection) DriverManager.getConnection(strSql, userName, password);
+        Statement statement = (Statement) connect.createStatement(); // Statement可以理解为数据库操作实例，对数据库的所有操作都通过它来实现
+        接下来操作数据库  
+
+--------------------------------------------------------------------------------

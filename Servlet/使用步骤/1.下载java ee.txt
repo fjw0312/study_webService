@@ -1,0 +1,6 @@
+1.下载java ee (jdk环境)
+2.新建Dynamic Web project
+3.在工程中定义类 继承servlet类。
+4.新建web/Service-》选择Tomact(最好7.0以上)
+5.点击右键Target Runing 选择服务器容器servers 添加到Servlet工程。
+6.开始编程 doGet  doPost

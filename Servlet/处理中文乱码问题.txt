@@ -1,0 +1,5 @@
+
+只要在doGet doPost 处理业务之前 添加：
+request.setCharacterEncoding("utf-8");  
+response.setContentType("text/html;charset=utf-8"); 
+就可以了

@@ -1,0 +1,64 @@
+Java对MySQL数据库进行连接、查询和修改
+http://www.cnblogs.com/aniuer/archive/2012/09/10/2679241.html
+
+0. 一般过程：
+
+　　(1) 调用Class.forName()方法加载驱动程序。
+
+　　(2) 调用DriverManager对象的getConnection()方法，获得一个Connection对象。
+
+　　(3) 创建一个Statement对象，准备一个SQL语句，这个SQL语句可以是Statement对象（立即执行的的语句）、PreparedStatement语句（预编译的语句）或CallableStatement对象（存储过程调用的语句）。
+
+　　(4) 调用excuteQuery()等方法执行SQL语句，并将结果保存在ResultSet对象；或者调用executeUpdate()等方法执行SQL语句，不返回ResultSet对象的结果。
+
+　　(5)对返回的ResultSet对象进行显示等相当的处理。
+
+　　(6)释放资源。
+
+
+
+1. 连接数据库
+　　(1) 下载Mysql连接驱动
+
+网址： http://dev.mysql.com/downloads/connector/j/ ，下载后放在F:\博士科研资料\数据库学习\mysql相关程序文件中，解压。
+
+　　(2) 加载JDBC驱动
+
+操作方法：在Eclipse中，选中相应的工程，点击Project-Properties中的Java Build Path，在Libraries中增加mysql-connector-java-5.1.21-bin.jar，点OK。
+
+　　(3) 建一个简单的数据库
+
+
+
+-------------------------------code  eg:---------------------------------------
+	//加载驱动
+	try{
+            //调用Class.forName()方法加载驱动程序
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("成功加载MySQL驱动！");
+        }catch(ClassNotFoundException e1){
+            System.out.println("找不到MySQL驱动!");
+            e1.printStackTrace();
+        }
+        
+	//成功连接到数据库
+        String url="jdbc:mysql://localhost:3306/mysql";    //JDBC的URL    
+        //调用DriverManager对象的getConnection()方法，获得一个Connection对象
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(url,    "root","");
+            //创建一个Statement对象
+            Statement stmt = conn.createStatement(); //创建Statement对象
+            System.out.print("成功连接到数据库！");
+            stmt.close();
+            conn.close();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
