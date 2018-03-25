@@ -4,3 +4,5 @@
 4.新建web/Service-》选择Tomact(最好7.0以上)
 5.点击右键Target Runing 选择服务器容器servers 添加到Servlet工程。
 6.开始编程 doGet  doPost
+7.点击Run as-> run as Server
+8.将工程打包成war包，放入Tomcat/webapps/
