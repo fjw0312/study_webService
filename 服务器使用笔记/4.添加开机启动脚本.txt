@@ -1,0 +1,7 @@
+实现系统开机自动 执行开机脚本
+
+在 /etc/rc.local 文件种添加：
+source  **.sh
+
+
+注意：目前腾讯云 设置/etc/rc.local 添加的sh 语句未能运行

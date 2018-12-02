@@ -1,0 +1,70 @@
+
+一。最简单的现在安装
+ 1.更新系统安装包缓存，并且安装OpenJDK8
+
+　　 sudo apt-get update
+
+　　 sudo apt-get install openjdk-8-jdk
+
+　 2.如果你系统中存在多个版本的JDK，使用下列命令设置一个默认的JDK
+
+　　 sudo update-alternatives --config java
+
+　　 sudo update-alternatives --config javac
+
+　　 输入选择的java版本的编号
+
+　 3.最后检查当前的java版本查看是否编译成功
+
+　　 java -version
+
+二、下载包安装
+1.官网下载JDK　　　
+
+     地址: http://www.oracle.com/technetwork/articles/javase/index-jsp-138363.html
+　　选择相应的 .gz包下载 
+
+2. 解压缩,放到指定目录(以jdk-7u60-linux-x64.gz为例)
+
+　　创建目录:
+
+sudo mkdir /usr/lib/jvm
+　加压缩到该目录:
+
+ sudo tar -zxvf jdk-7u60-linux-x64.gz -C /usr/lib/jvm
+3.修改环境变量:　　
+
+sudo vim ~/.bashrc
+　文件的末尾追加下面内容:
+
+#set oracle jdk environment
+export JAVA_HOME=/usr/lib/jvm/jdk1.7.0_60  ## 这里要注意目录要换成自己解压的jdk 目录
+export JRE_HOME=${JAVA_HOME}/jre  
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib  
+export PATH=${JAVA_HOME}/bin:$PATH  
+　使环境变量马上生效
+
+ source ~/.bashrc
+ 
+ 4.设置系统默认jdk 版本
+
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.7.0_60/bin/java 300  
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.7.0_60/bin/javac 300  
+sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk1.7.0_60/bin/jar 300   
+sudo update-alternatives --install /usr/bin/javah javah /usr/lib/jvm/jdk1.7.0_60/bin/javah 300   
+sudo update-alternatives --install /usr/bin/javap javap /usr/lib/jvm/jdk1.7.0_60/bin/javap 300   
+　然后执行:
+
+sudo update-alternatives --config java
+    若是初次安装jdk,会有下面的提示     
+
+   There is only one alternative in link group java (providing /usr/bin/java): 
+    /usr/lib/jvm/jdk1.7.0_60/bin/java
+
+　否者,选择合适的jdk
+
+5.测试jdk
+
+java -version
+
+java version "1.7.0_60"

@@ -1,0 +1,39 @@
+https://www.cnblogs.com/EasonJim/p/7202844.html
+
+一.apt 源安装
+1.sudo apt-get install tomcat8
+
+2.服务启动：
+#启动
+service tomcat8 start
+#状态
+service tomcat8 status
+#停止
+service tomcat8 stop
+
+3.配置管理员权限：
+sudo vim /var/lib/tomcat8/conf/tomcat-users.xml
+<role rolename="manager-gui"/>
+<role rolename="admin-gui"/>
+<user username="root" password="123456" roles="manager-gui,admin-gui"/>
+提示：按“i”插入，按Exc之后输入“：wq！”保存。
+
+4.重启服务测试：
+sudo service tomcat8 restart
+http://127.0.0.1:8080/
+
+5.查看下载后的tomcat8安装到了那里：
+whereis tomcat8
+可以看到它的配置文件在/etc/tomcat8下，启动文件在/usr/share/tomcat8下。
+webapps在哪里？其实它是在/var/lib/tomcat8下面
+
+6.卸载：
+sudo apt-get autoremove tomcat8
+
+7.查看tomcat 是否启动    #ps -ef|grep java
+
+二、使用安装包安装
+1.下载：tar.gz
+2.解压   tar zxvf apache-tomcat-8.5.16.tar.gz
+3.启动运行：sh  tomcat8/bin/startup.sh      
+4.访问测试   http://127.0.0.1:8080/
