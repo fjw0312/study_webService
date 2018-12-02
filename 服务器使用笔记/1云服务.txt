@@ -1,0 +1,18 @@
+1. 先申请云服务器。
+   记住公共Ip    私有Ip  
+   再配置安全组（网络通信安全端口的配置）ssh 连接一般用22端口 一定要打开
+   其他常用的网络端口也一定要打开。
+
+
+2.服务器添加管理员及用户
+   su有可能无法切换 报：su: Authentication failure
+                        输入#sudo passwd root 后设置管理员密码即可
+   用户添加
+  #adduser  ***
+   #pwd      ****
+   添加管理员
+sudo adduser username sudo              # 追加管理员权限
+grep -Po '^sudo.+:\K.*$' /etc/group     # 列出sudo权限的账户
+sudo deluser username sudo              # 删除指定用户的sudo权限
+sudo vim /etc/sudoers                   # 打开/etc/sudoers查看特殊root权限用户，
+                                        # 并注释掉ALL=(ALL:ALL) ALL权限用户
