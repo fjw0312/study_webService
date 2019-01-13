@@ -1,0 +1,33 @@
+1.# sudo apt-get update
+
+2.# sudo apt-get install mysql-server mysql-client
+
+3.判断是否安装成功：#sudo netstat -tap | grep mysql
+
+4.重启mysql: # sudo service mysql restart
+
+5.安装apache
+# sudo apt-get install apache2
+6.安装php
+# sudo apt-get install php5
+
+7.让apache支持mysql: # sudo apt-get install libapache2-mod-auth-mysql  
+
+8.让php支持mysql： #sudo apt-get install php5-mysql
+
+9.设置远程电脑可以连接数据（可用于第三方电脑Navicat管理）：
+#sudo vi /etc/mysql/my.cnf
+ bind-address = 127.0.0.1 //找到此内容并且注释
+ #授权root用户远程登录权限   第一个 roo t为用户名 @后为适用的主机，‘%’表示所有电脑都可以访问连接，第二个12345 为密码
+ mysql>grant all privileges on *.* to 'root'@'%' identified by '123456' with grant option;
+ #刷新权限
+ mysql> flush privileges;
+ #重新启动（命令如下）：
+/etc/init.d/mysql stop
+/etc/init.d/mysql start
+
+10.可以在本地电脑Navicat连接数据库，（注意服务器安全组端口）
+
+
+登录mysql #mysql -u root -p
+退出mysql > exit;
