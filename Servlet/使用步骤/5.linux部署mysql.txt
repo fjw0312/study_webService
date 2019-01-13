@@ -3,20 +3,25 @@
 
 2.# sudo apt-get install mysql-server mysql-client
 
-3.ÅÐ¶ÏÊÇ·ñ°²×°³É¹¦£º#sudo netstat -tap | grep mysql
+3.åˆ¤æ–­æ˜¯å¦å®‰è£…æˆåŠŸï¼š#sudo netstat -tap | grep mysql
 
-4.ÖØÆômysql: # sudo service mysql restart
+4.é‡å¯mysql: # sudo service mysql restart
 
-5.ÈÃapacheÖ§³Ömysql: # sudo apt-get install libapache2-mod-auth-mysql
+5.å®‰è£…apache
+# sudo apt-get install apache2
+6.å®‰è£…php
+# sudo apt-get install php5
 
-6.ÈÃphpÖ§³Ömysql£º #sudo apt-get install php5-mysql
+7.è®©apacheæ”¯æŒmysql: # sudo apt-get install libapache2-mod-auth-mysql  
 
-7.ÉèÖÃÔ¶³ÌµçÄÔ¿ÉÒÔÁ¬½ÓÊý¾Ý£¨¿ÉÓÃÓÚµÚÈý·½µçÄÔNavicat¹ÜÀí£©£º
+8.è®©phpæ”¯æŒmysqlï¼š #sudo apt-get install php5-mysql
+
+9.è®¾ç½®è¿œç¨‹ç”µè„‘å¯ä»¥è¿žæŽ¥æ•°æ®ï¼ˆå¯ç”¨äºŽç¬¬ä¸‰æ–¹ç”µè„‘Navicatç®¡ç†ï¼‰ï¼š
 #sudo vi /etc/mysql/my.cnf
- bind-address = 127.0.0.1 //ÕÒµ½´ËÄÚÈÝ²¢ÇÒ×¢ÊÍ
+ bind-address = 127.0.0.1 //æ‰¾åˆ°æ­¤å†…å®¹å¹¶ä¸”æ³¨é‡Š
 
-8.¿ÉÒÔÔÚ±¾µØµçÄÔNavicatÁ¬½ÓÊý¾Ý¿â£¬£¨×¢Òâ·þÎñÆ÷°²È«×é¶Ë¿Ú£©
+10.å¯ä»¥åœ¨æœ¬åœ°ç”µè„‘Navicatè¿žæŽ¥æ•°æ®åº“ï¼Œï¼ˆæ³¨æ„æœåŠ¡å™¨å®‰å…¨ç»„ç«¯å£ï¼‰
 
 
-µÇÂ¼mysql #mysql -u root -p
-ÍË³ömysql > exit;
+ç™»å½•mysql #mysql -u root -p
+é€€å‡ºmysql > exit;
