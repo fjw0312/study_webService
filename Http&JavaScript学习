@@ -1,0 +1,267 @@
+<!DOCTYPE html >
+<html >
+<head>
+<meta charset="utf-8" />
+<title>可编辑表格</title>
+	<script>
+	//加载完 页面后运行
+	window.onload=function (){
+		logTag = "加载完 页面后运行！";
+		console.log(logTag);
+		//alert(logTag); //页面 对话提示框
+		initRow(9);   //先初始化 10行表格
+	}
+	
+	// 表格删除 行
+	function delRow(){ //传入 删除行 的序号参数
+		var row = arguments[0]; //传入的第一个参数
+		logTag = "do delRow!";
+		console.log(logTag );
+		
+		var oTable = document.getElementById("oTable");
+		var tBodies = oTable.tBodies;
+		var tbody = tBodies[0];
+		tbody.deleteRow(row)
+	}
+	// 表格添加 行
+	function addRow(){
+	    var logTag = "";
+		//获得 表
+		var oTable = document.getElementById("oTable");
+		//获得 表头 THead 
+		var thead = oTable.tHead;
+		var rows = thead.rows; 		   //获得表头 thead tr
+		var cells = rows[0].cells;     //获得表头 行单元数组
+		var theadCellNumber = cells.length;  //获得表头 行 单元数量
+		logTag = "表头单元数量:";
+		console.log(logTag + theadCellNumber);
+	
+		
+		//获得 表体 TBody-> tBodies[]
+		var tBodies = oTable.tBodies;
+		logTag = "表体数量:";
+		console.log(logTag + tBodies.length);
+		
+		//获得表体0
+		var tbody = tBodies[0];
+		var tbodyRowNumber = tbody.rows.length; //获得现有 表的行数量
+		logTag = "表的行数量:";
+		console.log(logTag + tbodyRowNumber);
+		
+		//插入新的行
+		var tr = tbody.insertRow(tbodyRowNumber); //插入行 tr 标签
+		var i = 0;
+		for(i=0; i<theadCellNumber; i++){
+			var td_1 = tr.insertCell(i);   //在 行中 插入单元 cell
+			if(i == 0){
+				//删除 操作单元
+				var delTag = "del_"+tbodyRowNumber;
+				td_1.innerHTML='<'+delTag+' href="javascript:;">删除</'+delTag+'>';
+				var del = td_1.getElementsByTagName(delTag)[0];
+				del.style.color = "red";
+				del.onclick=function()
+				{
+					tbody.removeChild(this.parentNode.parentNode);
+				};
+			}else if(i == 1){
+				//序号 单元
+				var index = tbodyRowNumber;
+				td_1.innerHTML = "<div contenteditable='true'>"+index+"</div>";
+			}else{
+				//其他单元
+				td_1.innerHTML = "<div contenteditable='true'>请输入</div>";
+			}
+			
+		}
+		
+	}
+	//初始化 表格最初行
+	function initRow(){  //传入 需要初始化显示行数  的参数
+		var initRowNumber = arguments[0]; //传入的第一个参数
+		var i = 0;
+		for(i=0; i<initRowNumber; i++){
+			addRow();
+		}
+	}
+	
+	//------------------------读取表格数据----------------------
+	function readTable(){
+		//获得 表
+		var oTable = document.getElementById("oTable");
+		//获得 表头 THead 
+		var thead = oTable.tHead;
+		var tHeadRows = thead.rows; 		//获得表头 thead tr
+		var tCells = tHeadRows[0].cells;     //获得表头 行单元数组
+		var cellNumber = tCells.length;  //获得表头 行 单元数量
+		
+		
+		//获得 表体 TBody-> tBodies[]
+		var tBodies = oTable.tBodies;
+		var tbody = tBodies[0];
+		var tbodyRows = tbody.rows;    //获得现有 表的行
+		var rowsNumber = tbodyRows.length; //获得现有 表的行  行数量
+		
+		//获得表头 内容
+		var jsonHeadcells = [];
+		var arrayHeadcells = [];
+		var i = 0;
+		for(i=0;i<cellNumber;i++){
+		    var value = tCells[i].textContent;
+			arrayHeadcells[i] = value;
+			console.log(value);
+			
+			//创建表头 jsonArray 对象
+			var cell = {};
+			cell["title"] = value;
+			jsonHeadcells.push(cell);
+		}
+		var strjsonHead = JSON.stringify(jsonHeadcells);  //json数组转为json字符串
+		//console.log(strjsonHead);
+		
+		
+		var jsonRows = [];  //jsonArray 定义 行数据 json数组
+		//获取表体 内容
+		var j = 0;
+		for(i=0; i<rowsNumber; i++){ //遍历每一行
+			var row = tbodyRows[i];  //获得 行 tr
+			var tds = row.cells;      //获得 单元tds
+			var tdsNumber = tds.length;
+			
+			var jsonCells = [];         //jsonArray 定义  单元数据  json数据
+			//遍历 行tr 中的 每个单元td
+			for(j=0; j<tdsNumber; j++){
+				var div = tds[j].firstChild; //获得第一个子元素 div or del_n
+				var value = div.textContent;
+			//	console.log(value);
+				
+				//将单元内容 放入 json数组
+				var cell = {};  //定义一个json 对象
+				var name = arrayHeadcells[j];
+				cell[name] = value;
+				jsonCells.push(cell);
+			}
+			jsonRows.push(jsonCells);
+		}
+		
+		//建构 表Json
+		var strjsonRows = JSON.stringify(jsonRows);  //json数组转为json字符串
+		//console.log(strjsonRows);
+		var jsonTable = {};
+		jsonTable["head"] = jsonHeadcells;
+		jsonTable["data"] = jsonRows;
+		var strjsonTable = JSON.stringify(jsonTable);  //json  转为json字符串
+		console.log(strjsonTable);
+		
+		return strjsonTable;
+	}
+	//-----------------------下载 本地文件-------------------------
+	function loadFile(){ //传入 需要文件保存的 字符内容 参数
+		var content = arguments[0]; //传入的第一个参数
+		var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+		var url = URL.createObjectURL(blob);
+		document.getElementById("load").href = url;
+	}
+	//-------------------------将 页面表格信息 保存到本地文件------------------------
+	function createFileWrite(){
+		//1.获得表格 填入的数据
+		var tableData = readTable();
+		loadFile(tableData);
+	}
+	
+	//------------------------------执行网络 Http-------------------------------------
+	//-----------------http GET--
+	function doGet() {
+		var url = "http://127.0.0.1:8088/CoolFun";
+	
+	    var request=new XMLHttpRequest();
+		request.open("GET",url);
+		request.onreadystatechange=function(){
+			//判断响应状态码
+			if(request.readyState===request.DONE&&request.status===200){
+			//获取响应头中的响应内容类型
+				var type=request.getResponseHeader("Content-type");
+				//如果是文本类型
+				if(type.match(/^text/)){
+					var text = request.responseText;
+					console.log(text);
+					//将响应主体传送给回调函数，注：HEAD无响应主体
+					//callback(request.responseText/*响应主体为文本*/);
+					//callback(request.responseXML/*响应主体为XML*/);
+				}
+			}
+		}
+		request.send(null);
+	}
+	//---------------http POST--
+	function doPost(){
+		var url = "http://127.0.0.1:8088/CoolFun/post";
+		var data = "Test post XXX http post by js witch html XXXX";
+		
+		var request=new XMLHttpRequest();
+		request.open("POST",url);
+		request.setRequestHeader("Content-type","text/plain;charset=UTF-8");
+		
+		request.onreadystatechange=function(){
+			//判断响应状态码
+			if(request.readyState===request.DONE&&request.status===200){
+				//获取响应头中的响应内容类型
+				var type=request.getResponseHeader("Content-type");
+				//如果是文本类型
+				if(type.match(/^text/)){
+					var text = request.responseText;
+					console.log(text);
+					//将响应主体传送给回调函数，注：HEAD无响应主体
+					//callback(request.responseText/*响应主体为文本*/);
+					//callback(request.responseXML/*响应主体为XML*/);
+				}
+			}
+		}
+		request.send(data);
+	}
+	
+
+	</script>
+</head>
+<body>
+	<fieldset>
+		<legend>可编辑的表格</legend>
+		<table id="oTable" style="background-color:#eeeeee;" bordercolor="#aaaaaa" border="1" cellpadding="0" cellpadding="2" width="100%">
+			<thead>
+				<tr>
+				<th>操作</th>
+				<th>序号</th>
+				<th>标题1</th>
+				<th>标题2</th>
+				<th>标题3</th>
+				<th>标题4</th>
+				<th>标题5</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+				<td><div contenteditable="true"  href="javascript:;" onClick="delRow(0);" style="color:#FF0000">删除</div></td>
+				<td><div contenteditable="true">0</div></td>
+				<td><div contenteditable="true">第1行-1列</div></td>
+				<td><div contenteditable="true">第1行-2列</div></td>
+				<td><div contenteditable="true">第1行-3列</div></td>
+				<td><div contenteditable="true">第1行-4列</div></td>
+				<td><div contenteditable="true">第1行-5列</div></td>
+				</tr>
+				<!--tr>
+				<td><div contenteditable="true">0</div></td>
+				<td><div contenteditable="true">第1行-1列</div></td>
+				<td><div contenteditable="true">第1行-2列</div></td>
+				<td><div contenteditable="true">第1行-3列</div></td>
+				<td><div contenteditable="true">第1行-4列</div></td>
+				<td><div contenteditable="true">第1行-5列</div></td>
+				</tr-->
+			</tbody>
+		</table>
+	</fieldset>
+	<input type="button" onClick="addRow();" style="font-size:16px;" value="+"/>
+	<input type="button" onClick="readTable();" style="font-size:20px;" value="获取表数据"/>
+	<a id="load" onClick="createFileWrite();" href="" download="文件.json" >下载</a>
+	<input type="button" onClick="doPost();" style="font-size:20px;" value="网络上传"/>
+	<input type="button" onClick="doGet();" style="font-size:20px;" value="网络Get"/>
+</body>
+</html>
